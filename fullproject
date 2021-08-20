@@ -1,0 +1,36 @@
+Node 0 : { lambs:3, wolves:3, boat:0 }
+Node 1 : { lambs:2, wolves:3, boat:1 }  // boat took one lamb
+Node 2 : { lambs:1, wolves:3, boat:1 }  // boat took two lambs
+Node 3 : { lambs:2, wolves:2, boat:1 }  // boat took one lamb and one wolf
+Node 4 : { lambs:3, wolves:1, boat:1 }  // boat took two wolves
+Node 5 : { lambs:3, wolves:2, boat:1 }  // boat took one wolf
+
+Node N : { lambs:0, wolves:0, boat:1 }
+
+public class Node
+{
+     public int LambsOnLeft {get; set;}
+     public int WolvesOnLeft {get; set;}
+     public int Boat {get; set;}
+
+     public IEnumerable<Node> NextStates()
+     {
+         if (Boat == 0)    // on left
+         {
+              // boat takes  one lamb from left to right
+            if (LamsOnLeft > 0 && LambsOnLeft-1 >= WolvesOnLeft)     
+              yield return new Node(LambsOnLeft-1, WolvesOnLeft, 1);
+            }
+            if (LambsOnLeft > 1 && LambsOnLeft-2 >= WolvesOnLeft)
+              yield return new Node(LambsOnLeft-2, WolvesOnLeft, 1);
+            }
+            // take one wolf
+            if (WolvesOnLeft > 0)
+                yield return new Node(LambsOnLeft, WolvesOnLeft-1, 1);
+            // take two wolves
+            if (WolvesOnLeft > 1)
+               yield return new Node(LambsOnLeft, WolvesOnLeft-1, 1);
+            ...
+        }
+     }
+}
